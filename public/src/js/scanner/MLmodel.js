@@ -13,6 +13,30 @@ async function loadModel() {
     return await tf.loadGraphModel(MODEL_URL);
 }
 
+// Adapted from startScope / endScope in https://github.com/tensorflow/tfjs/blob/f6a7635d22eb867abce6b6e78256517ff1f25e7e/tfjs-core/src/engine.ts#L850
+function startPreditionScope() {
+    const scopeInfo = {
+        track: [],
+        name: 'unnamed scope',
+        id: window.tf.engine().state.nextScopeId++
+    };
+    if (name) {
+        scopeInfo.name = name;
+    }
+    window.tf.engine().state.scopeStack.push(scopeInfo);
+    window.tf.engine().state.activeScope = scopeInfo;
+}
+function endPreditionScope() {
+    let state = window.tf.engine().state;
+    // Dispose the arrays tracked in this scope.
+    for (let i = 0; i < state.activeScope.track.length; i++) {
+        state.activeScope.track[i].dispose();
+    }
+    state.activeScope = state.scopeStack.length === 0 ?
+        null :
+        state.scopeStack[state.scopeStack.length - 1];
+}
+
 async function getPredictions(image) {
 
     // console.log('voor: ', tf.memory().numTensors)
@@ -26,12 +50,13 @@ async function getPredictions(image) {
         //Shape becomes [1, width, height, channels]
         return image.expandDims(0);
     });
-
+    console.log('numTensors (before executeAsync): ' + tf.memory().numTensors);
+    startPreditionScope();
     const predictions = await model.executeAsync(batched, output_names).catch((error => {
         return error;
     }));
-
     batched.dispose();
+    tf.disposeVariables();
 
     if (predictions != null && predictions.length) {
         const classes = predictions[0].dataSync();
@@ -44,6 +69,7 @@ async function getPredictions(image) {
         }
 
         // console.log('na: ', tf.memory().numTensors);
+        endPreditionScope();
         return {
             classes: classes,
             count: count,
@@ -52,10 +78,7 @@ async function getPredictions(image) {
         };
 
     }
-
-
-    tf.dispose(predictions);
-    // console.log('na: ', tf.memory().numTensors);
+    endPreditionScope();
     return null;
 }
 
