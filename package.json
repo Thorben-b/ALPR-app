@@ -1,0 +1,21 @@
+{
+    "name": "kenteken_scanner",
+    "version": "0.0.1",
+    "Description": "Een afstudeerproject",
+    "main": "index.js",
+    "scripts": {
+        "start": "http-server -c-1"
+    },
+    "author": "Thorben Bruggeling",
+    "license": "ISC",
+    "devDependencies": {
+        "jasmine": "^3.5.0",
+        "workbox-cli": "^4.3.1"
+    },
+    "dependencies": {
+        "http-server": "^0.9.0",
+        "mocha": "^6.2.2",
+        "tesseract.js": "^2.0.0-beta.1",
+        "tesseract.js-core": "^2.0.0-beta.13"
+    }
+}

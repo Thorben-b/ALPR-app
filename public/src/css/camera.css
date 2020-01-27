@@ -1,0 +1,61 @@
+#create-picture {
+    z-index: 6;
+    position: absolute;
+    width: 100%;
+    min-height: calc(100vh - 56px);
+    overflow-y: scroll;
+    bottom: 0;
+    background: white;
+    text-align: center;
+    display: block;
+    transform: translateY(100vh);
+    transition: transform 0.5s;
+}
+
+#playerDiv {
+    width: 100%;
+    position: absolute;
+    display: block;
+}
+
+#canvasDiv {
+    position: relative;
+}
+
+#canvasBBox {
+    position: absolute;
+    z-index: 2;
+}
+
+#player,
+#canvas,
+#canvasBBox {
+    width: 512px;
+    max-width: 100%;
+    margin: auto;
+}
+
+#create-picture #capture-btn {
+    margin: 10px auto;
+}
+
+#create-picture #pick-image {
+    display: none;
+}
+
+.mdl-spinner {
+    margin: auto;
+}
+
+.floating-button {
+    position: fixed;
+    z-index: 5;
+    bottom: 0;
+    right: 0;
+    padding: 30px;
+}
+
+#saveButtonPlate {
+    top: 20px;
+    position: relative;
+}

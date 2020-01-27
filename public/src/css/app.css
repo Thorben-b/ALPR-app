@@ -1,0 +1,13 @@
+#table_div {
+    width: 100%;
+    overflow-x: scroll;
+    height: auto;
+}
+
+#table_id {
+    width: 100%;
+}
+
+#main-component {
+    overflow-y: hidden;
+}

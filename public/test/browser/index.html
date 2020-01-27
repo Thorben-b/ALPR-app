@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Mocha Tests</title>
+    <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
+</head>
+
+<body>
+    <!-- Mocha Requires a <div> with ID Mocha to Inject UI -->
+    <div id="mocha"></div>
+
+    <script src="https://unpkg.com/mocha/mocha.js"></script>
+
+    <script>
+        mocha.setup('bdd');
+    </script>
+
+    <!-- This Projects Libraries / Pieces of Code Here -->
+    <!-- <script src=”.....”></script> -->
+
+    <!-- This Projects Unit Tests Here -->
+    <!-- <script src=”.....”></script> -->
+
+    <script>
+        mocha.checkLeaks();
+        mocha.run();
+    </script>
+</body>
+
+</html>
