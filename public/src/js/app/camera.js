@@ -73,7 +73,10 @@ async function runPredictions() {
     model = await modelPromise;
     var context = canvasBB.getContext('2d');
 
+    tf.engine().startScope();
     var pred = await getPredictions(videoPlayer);
+    tf.engine().endScope();
+
     if (pred) {
         if (pred.count > 0) {
             resultText.innerText = 'Kentekens gevonden';

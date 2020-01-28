@@ -14,8 +14,6 @@ async function loadModel() {
 }
 
 async function getPredictions(image) {
-
-    // console.log('voor: ', tf.memory().numTensors)
     const output_names = ['detection_classes', 'num_detections', 'detection_boxes', 'detection_scores'];
     const batched = tf.tidy(() => {
 
@@ -26,12 +24,12 @@ async function getPredictions(image) {
         //Shape becomes [1, width, height, channels]
         return image.expandDims(0);
     });
-
+    console.log('numTensors (before executeAsync): ' + tf.memory().numTensors);
     const predictions = await model.executeAsync(batched, output_names).catch((error => {
         return error;
     }));
-
     batched.dispose();
+    tf.disposeVariables();
 
     if (predictions != null && predictions.length) {
         const classes = predictions[0].dataSync();
@@ -43,7 +41,6 @@ async function getPredictions(image) {
             tf.dispose(predictions[i]);
         }
 
-        // console.log('na: ', tf.memory().numTensors);
         return {
             classes: classes,
             count: count,
@@ -52,10 +49,6 @@ async function getPredictions(image) {
         };
 
     }
-
-
-    tf.dispose(predictions);
-    // console.log('na: ', tf.memory().numTensors);
     return null;
 }
 
